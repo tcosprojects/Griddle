@@ -72,6 +72,8 @@ var Griddle =
 	            "getExternalResults": null, // Used if obtaining results from an API, etc.
 	            "initialSort": "",
 	            "gridClassName":"",
+	            "tableClassName": "",
+	            "customFormatClassName": "",
 	            "settingsText": "Settings",
 	            "filterPlaceholderText": "Filter Results",
 	            "nextText": "Next",
@@ -378,7 +380,8 @@ var Griddle =
 	        var that = this,
 	            results = this.state.filteredResults || this.state.results; // Attempt to assign to the filtered results, if we have any.
 
-	        var headerTableClassName = this.props.gridClassName + " table-header";
+	        var headerTableClassName = this.props.tableClassName + " table-header";
+	        var griddleClassName = this.props.gridClassName + " griddle";
 
 	        //figure out if we want to show the filter section
 	        var filter = this.props.showFilter ? GridFilter({changeFilter: this.setFilter, placeholderText: this.props.filterPlaceholderText}) : "";
@@ -418,7 +421,7 @@ var Griddle =
 	            //clean this stuff up so it's not if else all over the place.
 	            resultContent = this.props.useCustomFormat 
 	                ? (CustomFormatContainer({data: data, columns: cols, metadataColumns: meta, className: this.props.gridClassName, customFormat: this.props.customFormat}))
-	                : (GridBody({data: data, columns: cols, metadataColumns: meta, className: this.props.gridClassName}));
+	                : (GridBody({data: data, columns: cols, metadataColumns: meta, className: this.props.tableClassName}));
 
 	            pagingContent = (GridPagination({next: this.nextPage, previous: this.previousPage, currentPage: this.state.page, maxPage: this.state.maxPage, setPage: this.setPage, nextText: this.props.nextText, previousText: this.props.previousText}));
 	        } else {
@@ -444,7 +447,7 @@ var Griddle =
 	                    ));
 
 	        return (
-	            React.DOM.div({className: "griddle"}, 
+	            React.DOM.div({className: griddleClassName}, 
 	                topSection, 
 	                columnSelector, 
 	                React.DOM.div({className: "grid-container panel"}, 
